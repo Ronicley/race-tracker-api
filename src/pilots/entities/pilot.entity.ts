@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Run } from 'src/runs/entities/run.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Pilot {
@@ -13,4 +14,7 @@ export class Pilot {
 
   @Column({ nullable: true })
   email: string;
+
+  @OneToMany(() => Run, (run: Run) => run.pilot)
+  runs: Run[];
 }

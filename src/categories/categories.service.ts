@@ -14,21 +14,20 @@ export class CategoriesService {
 
   async create(createCategoryDto: CreateCategoryDto) {
     try {
-      const category = await this.categoriesRepository.save({
+      await this.categoriesRepository.save({
         name: createCategoryDto.name,
       });
-      console.log(category);
     } catch (e) {
       console.log(e);
     }
   }
 
   findAll() {
-    return `This action returns all categories`;
+    return this.categoriesRepository.findAndCount();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} category`;
+    return this.categoriesRepository.findOneByOrFail({ id });
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
@@ -36,6 +35,6 @@ export class CategoriesService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} category`;
+    return this.categoriesRepository.delete(id);
   }
 }
