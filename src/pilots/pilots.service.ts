@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Logger } from '@nestjs/common/services';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { CreatePilotDto } from './dto/create-pilot.dto';
@@ -13,8 +14,12 @@ export class PilotsService {
     private dataSource: DataSource,
   ) {}
 
-  create(createPilotDto: CreatePilotDto) {
-    return 'This action adds a new pilot';
+  async create(createPilotDto: CreatePilotDto) {
+    try {
+      await this.pilotsRepository.save(createPilotDto);
+    } catch (e) {
+      Logger.error('Error on save pilot', e);
+    }
   }
 
   findAll(): Promise<Pilot[]> {
